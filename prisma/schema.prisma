@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  idTask        String      @id @default(uuid())
+  numberTask    Int
+  title         String
+  description   String
+  created_at    DateTime    @default(now())
+  idState       Int
+  updated_at    DateTime
+  user          User        @relation(fields: [userId], references: [idUser])
+  userId        String
+  typeTask      TypeTask    @relation(fields: [typeTaskId], references: [idTypeTask])
+  typeTaskId    Int
+  subtypeTask   SubTypeTask @relation(fields: [subTypeTaskId], references: [idSubTypeTask])
+  subTypeTaskId Int
+  History       History[]
+  state         State       @relation(fields: [stateId], references: [idState])
+  stateId       Int
+
+  @@map("tasks")
+}
+
+model User {
+  idUser   String  @id @default(uuid())
+  nickname String
+  name     String
+  password String
+  email    String  @unique
+  isActive Boolean
+  Task     Task[]
+
+  @@map("users")
+}
+
+model TypeTask {
+  idTypeTask          Int     @id @default(autoincrement())
+  descriptionTypeTask String
+  isActive            Boolean
+  taskIdTask          String?
+  Task                Task[]
+}
+
+model SubTypeTask {
+  idSubTypeTask          Int     @id @default(autoincrement())
+  descriptionSubTypeTask String
+  isActive               Boolean
+  Task                   Task[]
+}
+
+model State {
+  idState          Int     @id @default(autoincrement())
+  descriptionState String
+  isActive         Boolean
+  Task             Task[]
+}
+
+model History {
+  idHistory  Int      @id @default(autoincrement())
+  task       Task     @relation(fields: [taskIdTask], references: [idTask])
+  createdAt  DateTime
+  taskIdTask String
+}

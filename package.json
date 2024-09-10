@@ -1,0 +1,22 @@
+{
+  "name": "api-helpdesk-node",
+  "version": "1.0.0",
+  "description": "Api do App de HelpDesk",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "prisma": "^5.19.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.19.1",
+    "fastify": "^4.28.1"
+  }
+}
