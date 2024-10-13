@@ -44,30 +44,36 @@ model User {
 }
 
 model TypeTask {
-  idTypeTask          Int     @id @default(autoincrement())
+  idTypeTask          Int           @id @default(autoincrement())
   descriptionTypeTask String
   isActive            Boolean
   taskIdTask          String?
   Task                Task[]
+  idSubTypeTask       SubTypeTask[]
 }
 
 model SubTypeTask {
-  idSubTypeTask          Int     @id @default(autoincrement())
+  idSubTypeTask          Int       @id @default(autoincrement())
   descriptionSubTypeTask String
   isActive               Boolean
   Task                   Task[]
+  TypeTask               TypeTask? @relation(fields: [typeTaskIdTypeTask], references: [idTypeTask])
+  typeTaskIdTypeTask     Int?
 }
 
 model State {
-  idState          Int     @id @default(autoincrement())
+  idState          Int       @id @default(autoincrement())
   descriptionState String
   isActive         Boolean
   Task             Task[]
+  History          History[]
 }
 
 model History {
-  idHistory  Int      @id @default(autoincrement())
-  task       Task     @relation(fields: [taskIdTask], references: [idTask])
-  createdAt  DateTime
-  taskIdTask String
+  idHistory    Int      @id @default(autoincrement())
+  task         Task     @relation(fields: [taskIdTask], references: [idTask])
+  idState      State    @relation(fields: [stateIdState], references: [idState])
+  createdAt    DateTime
+  taskIdTask   String
+  stateIdState Int
 }
