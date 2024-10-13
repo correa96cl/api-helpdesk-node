@@ -12,21 +12,20 @@ datasource db {
 
 model Task {
   idTask        String      @id @default(uuid())
-  numberTask    Int
+  numberTask    Int?
   title         String
   description   String
-  created_at    DateTime    @default(now())
-  idState       Int
-  updated_at    DateTime
-  user          User        @relation(fields: [userId], references: [idUser])
-  userId        String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime?
+  user          User?       @relation(fields: [userId], references: [idUser])
+  userId        String?
   typeTask      TypeTask    @relation(fields: [typeTaskId], references: [idTypeTask])
   typeTaskId    Int
   subtypeTask   SubTypeTask @relation(fields: [subTypeTaskId], references: [idSubTypeTask])
   subTypeTaskId Int
   History       History[]
-  state         State       @relation(fields: [stateId], references: [idState])
-  stateId       Int
+  state         State       @relation(fields: [idState], references: [idState])
+  idState       Int
 
   @@map("tasks")
 }

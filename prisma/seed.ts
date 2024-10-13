@@ -121,6 +121,18 @@ async function seed(){
         }
     })
 
+    const createUser1 = await prisma.user.create({  
+        data: {
+            idUser: faker.string.uuid(),
+            nickname: faker.internet.userName(),
+            name: faker.name.firstName(),
+            email: faker.internet.email(),
+            password: await hash('123456', 6),
+            isActive: true
+            
+        }}
+    )
+
 
 }
 
