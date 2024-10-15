@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
+import { prisma } from "../../../lib/prisma";
 
 export async function getTypeTasks(app: FastifyInstance) {
 
@@ -10,19 +11,25 @@ export async function getTypeTasks(app: FastifyInstance) {
             summary: 'Get type of tasks',
             response: {
                 200: z.array(z.object({
-                    taskId: z.string().uuid(),
-                    title: z.string(),
-                    description: z.string(),
-                    status: z.enum(['todo', 'doing', 'done']),
-                    userId: z.string(),
+                    idTypeTask: z.number(),
+                    descriptionTypeTask: z.string()
                 }))
             }
         }
     }, async (request, reply) => {
 
-        return reply.send()
+        const typeTasks = await prisma.typeTask.findMany({
+            select: {
+                idTypeTask: true,
+                descriptionTypeTask: true
+            }, orderBy: {
+                descriptionTypeTask: 'asc'
+            }
+        })
+
+        return reply.send(typeTasks)
 
 
-}
+    }
     )
 }

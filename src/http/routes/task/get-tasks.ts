@@ -15,9 +15,17 @@ export async function getTasks(app: FastifyInstance) {
                     numberTask: z.number().nullable(),
                     title: z.string(),
                     description: z.string(),
-                    userId: z.string().nullable(),
-                    typeTaskId: z.number(),
-                    subTypeTaskId: z.number(),
+                    user: z.object({
+                        idUser: z.string()
+                    }).nullable(),
+                    typeTask: z.object({
+                        idTypeTask: z.number(),
+                        descriptionTypeTask: z.string()
+                    }),
+                    subtypeTask: z.object({
+                        idSubTypeTask: z.number(),
+                        descriptionSubTypeTask: z.string()
+                    }),
                     idState: z.number(),
                 }))
             }
@@ -30,9 +38,23 @@ export async function getTasks(app: FastifyInstance) {
                 numberTask: true,
                 title: true,
                 description: true,
-                userId: true,
-                typeTaskId: true,
-                subTypeTaskId: true,
+                user: {
+                    select: {
+                        idUser: true
+                    }
+                },
+                typeTask: {
+                    select: {
+                        idTypeTask: true,
+                        descriptionTypeTask: true
+                    }
+                },
+                subtypeTask: {
+                    select: {
+                        idSubTypeTask: true,
+                        descriptionSubTypeTask: true
+                    }
+                },
                 idState: true,
             },
             orderBy: {
